@@ -3,15 +3,17 @@
 
 (def http
     (node/require "http"))
- 
+
 (defn handler [_ res]
     (.writeHead res 200 {"Content-Type" "text/plain"})
     (.end res "Hello World!\n"))
  
 (defn -main [& _]
-    (let [server (.createServer http handler)]
-          (.listen server 1337 "127.0.0.1")
-          (println "Server running at http://127.0.0.1:1337/")))
+    (let [server (.createServer http handler)
+          server-url "127.0.0.1"
+          server-port 1337]
+          (.listen server server-port server-url)
+          (println (str "Server running at http://" server-url ":" server-port "/"))))
  
 (set! *main-cli-fn* -main)
 
