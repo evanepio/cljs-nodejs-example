@@ -1,19 +1,16 @@
-(ns nodejstest.core
+(ns express_sample
   (:require [cljs.nodejs :as node]))
 
-(def http
-  (node/require "http"))
+(def express (node/require "express"))
+(def app (. express (createServer)))
 
-(defn handler [_ res]
-  (.writeHead res 200 {"Content-Type" "text/plain"})
-  (.end res "Hello World!\n"))
-
-(defn -main [& _]
-  (let [server (.createServer http handler)
-        server-url "127.0.0.1"
-        server-port 1337]
-    (.listen server server-port server-url)
-    (println (str "Server running at http://" server-url ":" server-port "/"))))
+(defn -main [& args]
+  (let [port 3000]
+    (doto app
+      (.use (. express (logger)))
+      (.get "/" (fn [req res]
+                  (.send res "Hello World")))
+      (.listen 3000))
+    (println (str "Express server started on port: " port))))
 
 (set! *main-cli-fn* -main)
-
