@@ -10,7 +10,6 @@
 (defn -main [& args]
   (let [port 3000]
     (doto app
-      (.use (. express (logger)))
       (.get "/" hello-world)
       (.listen 3000))
     (println (str "Express server started on port: " port))))
