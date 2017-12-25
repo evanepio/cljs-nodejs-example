@@ -2,7 +2,7 @@
   (:require [cljs.nodejs :as node]))
 
 (def express (node/require "express"))
-(def app (. express (createServer)))
+(def app (express))
 
 (defn hello-world [req res]
   (.send res "Hello World"))
